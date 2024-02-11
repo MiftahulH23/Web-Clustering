@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  </head>
+  <body class="relative">
+    <video
+      autoplay
+      muted
+      loop
+      class="absolute z-[-1] inset-0 w-full h-full object-cover"
+    >
+      <source src="video.mp4" type="video/mp4" />
+      <!-- Sisipkan sumber video Anda di sini -->
+      Maaf, browser Anda tidak mendukung tag video.
+    </video>
+    <div class="px-4 pt-2 pb-10">
+      <header class="flex justify-between h-14 border-b-2 py-2 border-white">
+        <div class="overflow-hidden">
+          <p class="text-[#77a1e2] font-bold text-2xl">Data Science</p>
+          <!-- <img src="logo.png" class="w-full h-full object-cover" /> -->
+        </div>
+        <ul class="flex gap-10">
+          <li
+            class="font-bold hover:text-[#77a1e2] hover:cursor-pointer text-white"
+          >
+            Beranda
+          </li>
+          <a
+            href="#tim"
+            class="font-bold hover:text-[#77a1e2] hover:cursor-pointer text-white"
+            >Tim</a
+          >
+        </ul>
+      </header>
+      <div class="w-full grid grid-cols-2 justify-center mt-16 gap-6" data-aos="fade-in" data-aos-duration="2000">
+        <!-- Kiri -->
+        <div class="flex flex-col">
+          <p class="font-bold text-5xl text-white">Selamat Datang</p>
+          <p class="text-justify mt-5 text-white">Masukkan Data Anda</p>
+          <p class="text-justify mt-5 text-white">
+            Pada platform kami, kami menyajikan alat analisis canggih untuk
+            membantu Anda mengidentifikasi dan memahami tingkat kerusakan serta
+            dampak pada infrastruktur. Dengan data x yang mewakili tingkat
+            kerusakan dan y yang mewakili dampak, kami memberikan solusi terbaik
+            untuk merinci dan mengevaluasi kondisi infrastruktur.
+          </p>
+          <p class="mt-3 text-white">Keterangan inputan form</p>
+          <p class="mt-1 text-white">a. Isi semua form dengan benar</p>
+          <p class="mt-1 text-white">
+            b. Untuk nama kecamatan hanya untuk kota Pekanbaru
+          </p>
+          <p class="mt-1 text-white">
+            c. Berikan tingkat kerusakan menurut anda dari range 1-7, yang mana
+            tingkat kerusakannya rendah dan 7 tingkat kerusakannya tinggi
+          </p>
+          <div
+            id="resultRendah"
+            class="mt-5 pxi-4 py-2 rounded text-teal-200 text-center hidden text-2xl"
+          ></div>
+          <div
+            id="resultTinggi"
+            class="mt-5 pxi-4 py-2 rounded text-red-400 text-center hidden text-2xl"
+          ></div>
+        </div>
+        <!-- Kanan -->
+        <form
+          id="predict"
+          method="POST"
+          class="bg-white rounded-lg shadow-lg pt-5 pb-10 px-4 h-fit"
+        >
+          <label for="Nama" class="flex flex-col gap-1 text-black mb-5">
+            Nama
+            <input
+              type="text"
+              name="Nama"
+              id="nama"
+              placeholder="Masukkan Naman"
+              class="outline-none w-60 px-4 py-2 rounded-md bg-gray-200 w-full"
+              required
+            />
+          </label>
+          <label
+            for="JenisInfrastruktur"
+            class="flex flex-col gap-1 text-black mb-5"
+          >
+            Jenis Infrastruktur
+            <input
+              type="text"
+              name="JenisInfrastruktur"
+              id="jenisInfrastruktur"
+              placeholder="Masukkan Jenis Infrastruktur"
+              class="outline-none w-60 px-4 py-2 rounded-md bg-gray-200 w-full"
+              required
+            />
+          </label>
+          <label for="selectKecamatan" class="flex flex-col gap-1 text-black mb-5">
+            Pilih Kecamatan
+            <select
+              name="selectKecamatan"
+              id="selectKecamatan"
+              class="outline-none w-60 px-4 py-2 rounded-md bg-gray-200 w-full"
+              required
+            >
+              <option value="" disabled selected>Pilih Kecamatan</option>
+              <option value="kecamatan1">Binawidya</option>
+              <option value="kecamatan2">Bukit Raya</option>
+              <option value="kecamatan2">Kulim</option>
+              <option value="kecamatan2">Lima Puluh</option>
+              <option value="kecamatan2">Marpoyan Damai</option>
+              <option value="kecamatan2">Payung Sekaki</option>
+              <option value="kecamatan2">Pekanbaru Kota</option>
+              <option value="kecamatan2">Rumbai Barat</option>
+              <option value="kecamatan2">Rumbai</option>
+              <option value="kecamatan2">Rumbai Timur</option>
+              <option value="kecamatan2">Sail</option>
+              <option value="kecamatan2">Senapelan</option>
+              <option value="kecamatan2">Sukajadi</option>
+              <option value="kecamatan2">Tuah Madani</option>
+              <option value="kecamatan2">Tenayan Raya</option>
+              <!-- Tambahkan opsi untuk kecamatan lain sesuai kebutuhan -->
+            </select>
+          </label>
+          <div class="grid grid-cols-2 gap-5">
+            <label
+              for="Faktor Penyebab"
+              class="flex flex-col gap-1 text-black mb-5"
+            >
+              Faktor Penyebab
+              <input
+                type="text"
+                name="Faktor Penyebab"
+                id="faktorPenyebab"
+                placeholder="Masukkan Faktor Penyebab"
+                class="outline-none w-60 px-4 py-2 rounded-md bg-gray-200 w-full"
+                required
+              />
+            </label>
+            <label for="Tanggal" class="flex flex-col gap-1 text-black mb-5">
+              Tanggal
+              <input
+                type="date"
+                name="Tanggal"
+                id="tanggal"
+                placeholder="Masukkan Tanggal"
+                class="outline-none w-60 px-4 py-2 rounded-md bg-gray-200 w-full"
+                required
+              />
+            </label>
+          </div>
+          <div class="grid grid-cols-2 gap-5">
+            <label
+              for="Tingkat Kerusakan"
+              class="flex flex-col gap-1 text-black mb-5"
+            >
+              Tingkat Kerusakan
+              <input
+                type="number"
+                name="Tingkat Kerusakan"
+                id="TingkatKerusakan"
+                placeholder="Masukkan Tingkat Kerusakan"
+                class="outline-none w-60 px-4 py-2 rounded-md bg-gray-200 w-full"
+                required
+              />
+            </label>
+            <label
+              for="Tingkat Dampak"
+              class="flex flex-col gap-1 text-black mb-5"
+            >
+              Tingkat Dampak
+              <input
+                type="number"
+                name="Tingkat Dampak"
+                id="TingkatDampak"
+                placeholder="Masukkan Tingkat Dampak"
+                class="outline-none w-60 px-4 py-2 rounded-md bg-gray-200 w-full"
+                required
+              />
+            </label>
+          </div>
+          <button
+            id="button-submit"
+            class="w-full px-4 py-2 rounded-md bg-blue-500 text-white active:bg-blue-600 mt-4"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+      <!-- Tim -->
+      <p class="mt-10 text-center font-bold text-4xl text-white mb-5" id="tim" data-aos="fade-in" data-aos-duration="2000">
+        Anggota Tim
+      </p>
+      <div class="grid grid-cols-2" data-aos="fade-in" data-aos-duration="2000">
+        <div class="grid grid-cols-2 gap-5">
+          <div
+            class="backdrop:blur-[200px] rounded-lg shadow-lg bg-white/30 border-white"
+          >
+            <img src="cowok.png" alt="" class="object-cover" />
+          </div>
+          <div>
+            <p class="text-white font-semibold text-2xl">Miftahul Huda</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-5">
+          <div
+            class="backdrop:blur-[200px] rounded-lg shadow-lg bg-white/30 border-white"
+          >
+            <img src="cewek.png" alt="" class="object-cover" />
+          </div>
+          <div>
+            <p class="text-[#190838] font-semibold text-2xl">Desypra Estevania</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        "use strict";
+        $("#predict").on("submit", function (event) {
+          event.stopPropagation();
+          event.preventDefault();
+
+          var formData = new FormData(this);
+
+          $.ajax({
+            url: "http://127.0.0.1:5000/predict",
+            type: "POST",
+            data: formData,
+            cache: false,
+            timeout: 60000,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            mimeType: "multipart/form-data",
+            success: function (json) {
+              console.log("Full Response:", json);
+
+              document.querySelector("#resultTinggi").classList.add("hidden");
+              document.querySelector("#resultRendah").classList.add("hidden");
+
+              if (JSON.stringify(json[0]) == 0) {
+                document
+                  .querySelector("#resultRendah")
+                  .classList.remove("hidden");
+                $("#resultRendah").html("Prioritas Rendah");
+              } else {
+                document
+                  .querySelector("#resultTinggi")
+                  .classList.remove("hidden");
+                $("#resultTinggi").html(
+                  "Prioritas Tinggi, maka harus segera dilakukan tindakan"
+                );
+              }
+
+              // Menampilkan respons lengkap ke dalam div result
+              // $("#result").html(JSON.stringify(json[0]));
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log("Error: " + textStatus);
+            },
+          });
+
+          return false;
+        });
+      });
+    </script>
+    <script>
+      function validateInput() {
+        const tingkatKerusakan =
+          document.getElementById("TingkatKerusakan").value;
+        const tingkatDampak = document.getElementById("TingkatDampak").value;
+
+        if (
+          tingkatKerusakan < 1 ||
+          tingkatKerusakan > 7 ||
+          tingkatDampak < 1 ||
+          tingkatDampak > 7
+        ) {
+          alert(
+            "Nilai yang dimasukkan harus berada dalam rentang 1 hingga 7 untuk Tingkat Kerusakan dan Tingkat Dampak."
+          );
+          return false;
+        }
+        return true;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        form.addEventListener("submit", function (event) {
+          if (!validateInput()) {
+            event.preventDefault(); // Mencegah pengiriman form jika validasi gagal
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
